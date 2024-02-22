@@ -8,16 +8,14 @@ from .exceptions import BadStoreOption
 
 StoreOption = Literal['REDIS', 'DICTIONARY']
 
-key = None
-store_option = 'DICTIONARY'
-host = 'localhost' 
-port = 6379 
-
 class RateLimitDecorator:
     store: Store
     limit: RateLimit
 
-    def __init__(self, count: int = 15, period: int = 900, store_option: StoreOption = store_option, host: Optional[str] = host, port: Optional[int] = port, key: Optional[str] = key):
+    def __init__(self, count: int = 15, period: int = 900, store_option: StoreOption = 'DICTIONARY', host: Optional[str] = 'localhost', port: Optional[int] = 6379, key: Optional[str] = None):
+        '''
+        if no key is provided a random int is generated instead 
+        '''
         limit = RateLimit(count=count, period=period)
         match store_option:
             case 'DICTIONARY':
